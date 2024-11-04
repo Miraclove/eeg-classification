@@ -1,76 +1,113 @@
+# EEG Classification for Emotion Recognition Using Machine Learning
 
-# Reading
-## Reference article (You should read first before going through)
-TorchEEG: A PyTorch Lib for Deep EEG Analysis
+This project focuses on classifying Electroencephalogram (EEG) signals into different emotional states using machine learning techniques. By leveraging the SEED-IV dataset, we aim to build models capable of distinguishing four emotions: happy, sad, neutral, and fear. The approach includes data pre-processing, feature extraction, and model development using deep learning methods such as CNN and KNN.
 
-    https://medium.com/@tczhangzhi/torcheeg-a-pytorch-lib-for-deep-eeg-analysis-a25ca12175e8
+## Project Structure
 
-How to work with Pytorch, setting dataset and training
+```
+.
+├── data/                   # Directory for storing datasets and processed data
+│   └── preprocessing.ipynb # Jupyter Notebook for data analysis and preprocessing
+├── exp/                    # Directory for experimental scripts and training pipelines
+│   └── trainer.py          # Script defining the general training loop
+├── model/                  # Directory for model architecture definitions
+│   ├── ccnn.py             # Python file defining the Convolutional Neural Network model structure
+│   └── tscnn.py            # Python file defining the Time-Series Convolutional Neural Network model
+├── quick-start.ipynb       # Jupyter Notebook for quick-start guide and code walkthrough
+├── README.md               # Project documentation file
+├── vanilla_train.py        # Script for training a basic neural network model
+└── other scripts/          # Additional training and experiment-related scripts
+```
 
-    https://pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html
+## Contents
 
-TorchEEG Documentation
+- [Overview](#overview)
+- [Getting Started](#getting-started)
+- [Data Preprocessing](#data-preprocessing)
+- [Model Architecture](#model-architecture)
+- [Training the Model](#training-the-model)
+- [Evaluation](#evaluation)
+- [Future Improvements](#future-improvements)
+- [Contributors](#contributors)
 
-    https://torcheeg.readthedocs.io/en/latest/index.html
+## Overview
 
-Sometimes the document is not up-to-date, you need to check pypi repo
+This project is designed to facilitate training, evaluating, and visualizing deep learning models. The project includes various components:
+- **Model Structures**: Defined in `model/` directory for easy customization.
+- **Data Preprocessing**: Handled through the `data/preprocessing.ipynb` notebook.
+- **Training Framework**: Managed by scripts in the `exp/` directory to ensure generality and reusability.
 
-    https://pypi.org/project/torcheeg/  
-SEEDIV dataset
+## Getting Started
 
-    https://torcheeg.readthedocs.io/en/v1.1.0/generated/torcheeg.datasets.SEEDIVDataset.html
+### Prerequisites
 
-Source Code of SEEDIV dataset
+Ensure you have Python 3.x installed along with the required dependencies:
+- `numpy`
+- `pandas`
+- `matplotlib`
+- `scikit-learn`
+- `tensorflow` or `torch` (depending on model requirements)
+- `jupyter`
 
-    https://torcheeg.readthedocs.io/en/v1.0.10/_modules/torcheeg/datasets/module/emotion_recognition/seed_iv.html
+You can install all the necessary packages by running:
+```bash
+pip install -r requirements.txt
+```
 
+### Installation
 
-# Environment
-## Environment Setup, it can be tough and painful especially with cuda
-### install conda
-    https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html
+Clone the repository and navigate to the project directory:
+```bash
+git clone https://github.com/Miraclove/eeg-classification
+cd eeg-classification
+```
 
-### install cuda==11.8 if you have Nvidia GPU, the most widely support version, this can be time consuming
-    https://developer.nvidia.com/cuda-11-8-0-download-archive
+## Data Preprocessing
 
-### create environment, as pytorch only support python >= 3.8, do not go too advanced
-    conda create -n eeg python=3.9
-    conda activate eeg
+The data analysis and preprocessing steps are detailed in `data/preprocessing.ipynb`. This notebook includes:
+- Loading and inspecting the dataset.
+- Visualizing key data features.
+- Data cleaning and transformation steps.
 
+To start preprocessing, open the notebook and run the cells step-by-step:
+```bash
+jupyter notebook data/preprocessing.ipynb
+```
 
-### install packages if you have cuda
+## Model Architecture
 
-    pip install torch==2.2.0 torchvision==0.17.0 torchaudio==2.2.0 --index-url https://download.pytorch.org/whl/cu118
-    pip install torcheeg
-    pip install torch-scatter -f https://data.pyg.org/whl/torch-2.2.0+cu118.html
-    pip install torch-sparse -f https://data.pyg.org/whl/torch-2.2.0+cu118.html
-    pip install torch-cluster -f https://data.pyg.org/whl/torch-2.2.0+cu118.html
-    pip install torch-spline-conv -f https://data.pyg.org/whl/torch-2.2.0+cu118.html
-    pip install torch-geometric
+### Convolutional Neural Network (CNN)
+Defined in `model/ccnn.py`, this script includes the structure for a standard CNN used for image-based or structured data classification.
 
+### Temporal-Spatial Convolutional Neural Network (TSCNN)
+Defined in `model/tscnn.py`, this model is tailored for Temporal-Spatial data processing.
 
-    # torcheeg uses very old repo, fix if you need
-    pip install mne==1.0.3 
-    pip install scipy==1.7.3 
-    pip install numpy==1.23 
+Both files are organized to make modifications straightforward if different layers or architectures are needed.
 
+## Training the Model
 
-### install packages if you do not have cuda
+General training routines are encapsulated in `exp/trainer.py`, which offers flexibility to:
+- Load different models.
+- Adjust training parameters.
+- Monitor training performance.
 
-    pip install torch==2.2.0 torchvision==0.17.0 torchaudio==2.2.0
-    pip install torcheeg
-    pip install torch-scatter
-    pip install torch-sparse
-    pip install torch-cluster
-    pip install torch-spline-conv
-    pip install torch-geometric
+Additionally, you can use the `vanilla_train.py` script for a basic training run:
+```bash
+python vanilla_train.py
+```
 
+## Evaluation
 
-    # torcheeg uses very old repo, fix if you need
-    pip install mne==1.0.3 
-    pip install scipy==1.7.3 
-    pip install numpy==1.23 
+The evaluation metrics and validation steps are embedded in the `trainer.py` script, which reports:
+- Training and validation accuracy.
+- Loss graphs.
+- Optional test set evaluation.
 
+## Future Improvements
 
-# Experiment
-## Try quick-start.ipynb
+- **Hyperparameter Tuning**: Integrate automated hyperparameter search methods like `Optuna` or `Hyperopt`.
+- **Interactive Dashboards**: Add dashboards for real-time tracking of training metrics using `TensorBoard` .
+
+## Contributors
+
+- [Weizhi Peng](https://github.com/Miraclove) - Project creator and primary developer.
